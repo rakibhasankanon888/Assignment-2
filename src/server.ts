@@ -1,24 +1,12 @@
-import express, { type Application, type Request, type Response } from "express"
-const app: Application = express();
-const port = 5000;
+import app from "./app.js";
+import config from "./config/index.js";
+import { initDB } from "./db/index.js";
 
-app.use(express.json());
-app.use(express.text());
-app.use(express.urlencoded);
+const main = () => {
+    initDB();
+    app.listen(config.port, () => {
+        console.log(`Example app listening on port ${config.port}`)
+    })
+};
 
-app.get('/', (req: Request, res: Response) => {
-    // res.send('Hello World!')
-    res.status(200).json({
-        "success": true,
-        "message": "DevPulse Server is running successfully",
-
-    });
-});
-
-app.post("/", async (req: Request, res: Response) => {
-    console.log(req.body);
-})
-
-app.listen(port, () => {
-    console.log(`Example app listening on port ${port}`)
-})
+main();
